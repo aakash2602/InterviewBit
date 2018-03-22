@@ -1,21 +1,21 @@
 import collections
-import time
+# import time
 
 class Node:
     def __init__(self):
         self.left_child = None  # corresponds to bit 0
         self.right_child = None  # corresponds to bit 1
         self.terminus = False
-        self.bit_index = []
+        self.bit_index = {}
         self.word = ""
 
     def add(self, child_node, bit, bit_index):
         if bit == '0':
             self.left_child = child_node
-            self.left_child.bit_index.append(bit_index)
+            self.left_child.bit_index[bit_index] = 1
         elif bit == '1':
             self.right_child = child_node
-            self.right_child.bit_index.append(bit_index)
+            self.right_child.bit_index[bit_index] = 1
 
     def update_terminus(self, status):
         self.terminus = status
@@ -41,7 +41,7 @@ class Trie:
             # print (i)
             if self.has_node(root, word[i]):
                 root = root.left_child if word[i] == '0' else root.right_child
-                root.bit_index.append(index)
+                root.bit_index[index] = 1
             else:
                 child_node = Node()
                 root.add(child_node, word[i], index)
@@ -63,7 +63,7 @@ class Trie:
         elif bit == '1':
             return True if node.right_child != None else False
 
-    def print(self):
+    def print_graph(self):
         root = self.head
         queue = collections.deque()
         queue.append(root)
@@ -133,7 +133,7 @@ class Trie:
         return optimal_num
 
 
-millis=int(round(time.time()*1000))
+# millis=int(round(time.time()*1000))
 t = int(input().strip())
 for test_cases in range(t):
     n, m = input().strip().split(" ")
@@ -144,7 +144,7 @@ for test_cases in range(t):
     # insert_arr = list(set(nums[x - 1:y]))
     for j in range(len(nums)):
         t.insert(nums[j], j)
-    # t.print()
+    # t.print_graph()
     for i in range(m):
         a, x, y = input().strip().split()
         a, x, y = [int(a), int(x), int(y)]
@@ -156,5 +156,5 @@ for test_cases in range(t):
         #     t.insert(nums[j], j)
         # max_num = t.find_max_xor_old(a)
         print(a ^ max_num)
-millis1=int(round(time.time()*1000))
-print("timetakenforinternalparse:"+str(millis1-millis)+"ms")
+# millis1=int(round(time.time()*1000))
+# print("timetakenforinternalparse:"+str(millis1-millis)+"ms")
